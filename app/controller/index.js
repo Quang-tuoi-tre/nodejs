@@ -14,5 +14,4 @@ router.use("/product-manage", require(__dirname + "/admin/productmanage"));
 router.use("/",  function(req,res){
     res.render("index.ejs");
 });
-// router.get("/",  require(__dirname + "/admin/admincontroller"));
 module.exports= router;
