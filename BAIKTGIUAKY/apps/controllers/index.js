@@ -10,6 +10,8 @@ router.use("/admin", require(__dirname + "/admin/admincontroller"));
 router.use("/table", require(__dirname + "/admin/tablecontroller"));
 // router.use("/product-manage", require(__dirname + "/admin/productmanage"));
 
+router.use("/authenticate", require(__dirname + "/api/authenticatecontroller"));
+
 router.use("/",  function(req,res){
     res.render("index.ejs");
 });

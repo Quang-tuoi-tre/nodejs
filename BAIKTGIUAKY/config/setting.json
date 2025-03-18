@@ -4,5 +4,10 @@
        "password": "Quanggat789",
        "database":"ktgiuaky"
     }
+    "jwt": {
+    "secret":"goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu"
+   }
+
  }
+ 
  

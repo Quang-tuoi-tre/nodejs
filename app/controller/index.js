@@ -11,6 +11,7 @@ router.use("/admin", require(__dirname + "/admin/admincontroller"));
 router.use("/authenticate", require(__dirname + "/admin/authenticatecontroller"));
 router.use("/product-manage", require(__dirname + "/admin/productmanage"));
 
+
 router.use("/",  function(req,res){
     res.render("index.ejs");
 });
