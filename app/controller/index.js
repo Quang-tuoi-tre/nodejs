@@ -10,6 +10,9 @@ router.use("/about", require(__dirname+"/aboutcontroller"));
 router.use("/admin", require(__dirname + "/admin/admincontroller"));
 router.use("/authenticate", require(__dirname + "/admin/authenticatecontroller"));
 router.use("/product-manage", require(__dirname + "/admin/productmanage"));
+router.get("/chat", function(req,res){
+    res.render("chat");
+});
 
 
 router.use("/",  function(req,res){

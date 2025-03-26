@@ -77,6 +77,7 @@
 
 var express = require("express");
 var hello = express();
+var socketio = require("socket.io");
 hello.set("views", __dirname+"/app/views");
 hello.set("view engine", "ejs");
 hello.use(express.urlencoded({ extended: true }));  // Để phân tích dữ liệu từ form
@@ -89,3 +90,6 @@ hello.use(controller);
 var server = hello.listen(3000, function(){
     console.log("server is running");
 })
+
+var io = socketio(server);
+var socketcontroller = require("./app/controller/chatcontroller")(io);
