@@ -5,4 +5,11 @@ router.use("/",function(req,res){
     res.render("product.ejs");
 
 });
+router.post("/test-event", async function(req,res){
+    const orderData = { event: "test chat event", data: `Event 100` };
+    global.eventBus.emit("newOrder", null,orderData);
+    res.json({status:"ok"});
+});
+
+
 module.exports= router;

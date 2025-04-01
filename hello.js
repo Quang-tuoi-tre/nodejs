@@ -77,19 +77,54 @@
 
 var express = require("express");
 var hello = express();
+var bodyParser = require("body-parser");
+global.eventBus = require("js-event-bus")();
+hello.use(express.json());
+hello.use(bodyParser.urlencoded({ extended: false }));
+hello.use(bodyParser.json());
 var socketio = require("socket.io");
 hello.set("views", __dirname+"/app/views");
 hello.set("view engine", "ejs");
-hello.use(express.urlencoded({ extended: true }));  // Để phân tích dữ liệu từ form
-hello.use(express.json());
+// hello.use(express.urlencoded({ extended: true }));  // Để phân tích dữ liệu từ form
+
 hello.use("/static",express.static(__dirname+"/public"));
 hello.use("/partial",express.static(__dirname+"/views/partial"));
 var controller = require(__dirname + "/app/controller");
 hello.use(controller);
 
+
+
+setInterval(() => {
+   const orderData = { event: "newOrder", data: `Order ID ${Math.floor(Math.random() * 1000)}` };
+   global.eventBus.emit("newOrder", null,orderData);
+
+}, 5000);
+
+
+hello.get("/events", (req, res) => {
+   res.setHeader("Content-Type", "text/event-stream");
+   res.setHeader("Cache-Control", "no-cache");
+   res.setHeader("Connection", "keep-alive");
+   const eventHandler = (eventData) => {
+      res.write(`data: ${JSON.stringify(eventData)}\n\n`);
+   };
+
+
+   global.eventBus.on("newOrder",eventHandler);
+   req.on("close", () => {
+      global.eventBus.off("newOrder", eventHandler);
+      console.log("Client disconnected");
+   });
+});
+
+
+
+
+
+
 var server = hello.listen(3000, function(){
     console.log("server is running");
 })
 
-var io = socketio(server);
-var socketcontroller = require("./app/controller/chatcontroller")(io);
+// var io = socketio(server);
+// var socketcontroller = require("./app/controller/chatcontroller")(io);

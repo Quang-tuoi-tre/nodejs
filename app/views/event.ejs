@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+
+</head>
+<body>
+    <div id="messages"></div>
+    <script>
+        const eventSource = new EventSource('/events');
+
+
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log('Received event:', data);
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += `<p>${data.data}</p>`;
+        };
+
+
+        eventSource.onerror = () => {
+            console.log('Connection lost');
+            eventSource.close();
+        };
+    </script>
+</body>
+</html>
