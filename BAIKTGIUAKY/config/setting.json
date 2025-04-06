@@ -2,8 +2,8 @@
     "mongodb":{
        "username": "quanggat789",
        "password": "Quanggat789",
-       "database":"ktgiuaky"
-    }
+       "database":"petshop"
+    },
     "jwt": {
     "secret":"goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu"
    }
