@@ -1,5 +1,4 @@
-const Pet = require('../entity/pet');
-const { ObjectId } = require('mongodb');
+const Pet = require('../models/pet');  // Import Pet Model
 
 // API Thêm Pet mới
 async function insertPet(req, res) {
@@ -19,26 +18,23 @@ async function insertPet(req, res) {
         });
 
         const result = await newPet.save();  // Sử dụng phương thức `save()` của mongoose để thêm mới Pet
-        res.json({ status: true, message: "Pet created successfully", pet: result });
+        res.json({  pet: result });
     } catch (error) {
         res.status(500).json({ status: false, message: "Error creating pet", error: error.message });
     }
 }
 
 // API Lấy danh sách Pet với phân trang
-async function getPetList(req, res) {
-    try {
-        const pageIndex = Number(req.query.pageIndex);
-        const pageSize = Number(req.query.pageSize);
+const listPet = async (req,res)=>{
 
-        const petList = await Pet.find({})
-            .skip((pageIndex - 1) * pageSize)
-            .limit(pageSize);
+    Pet.find({})
+    .then(data=>{
+        res.json(data)
+    })
+    .catch(err=>{
+        res.status(500).json('Lấy dữ liệu thất bại!!!')
+    })
 
-        res.json({ status: true, petList });
-    } catch (error) {
-        res.status(500).json({ status: false, message: "Error fetching pet list", error: error.message });
-    }
 }
 
 // API Lấy thông tin chi tiết của một Pet
@@ -93,4 +89,4 @@ async function deletePet(req, res) {
     }
 }
 
-module.exports = { insertPet, getPetList, getPet, updatePet, deletePet };
+module.exports = { insertPet, listPet, getPet, updatePet, deletePet };

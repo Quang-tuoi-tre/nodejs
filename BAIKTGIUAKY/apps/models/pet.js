@@ -17,7 +17,9 @@ const PetSchema = new Schema({
     stock: { type: Number, default: 0 },  // Số lượng thú cưng trong kho
     isActive: { type: Boolean, default: true }, // Trạng thái có bán hay không
 }, {
-    timestamps: true  // Tạo trường createdAt và updatedAt
+    timestamps: true,  // Tạo trường createdAt và updatedAt
+    collection: 'pet' 
+
 });
 
 // Export model Pet
