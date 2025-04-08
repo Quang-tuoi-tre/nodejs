@@ -13,7 +13,7 @@ const checkAuthAndRole = (roles) => {
 
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err) {
-                return res.redirect('/web/login');
+                return res.redirect('/web/petmanager');
             }
 
             // Kiểm tra vai trò của người dùng

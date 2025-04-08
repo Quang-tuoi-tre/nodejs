@@ -1,9 +1,12 @@
 const Pet = require('../models/pet');  // Import Pet Model
 
 // API Thêm Pet mới
-async function insertPet(req, res) {
+const insertPet = async (req, res) => {
     try {
-        const { name, categoryId, description, price, age, breed, image, stock, isActive } = req.body;
+        const { name, categoryId, description, price, age, breed, image, stock } = req.body;
+
+        // Kiểm tra các trường bắt buộc
+       
 
         const newPet = new Pet({
             name,
@@ -14,15 +17,15 @@ async function insertPet(req, res) {
             breed,
             image,
             stock,
-            isActive,
+            isActive: isActive || true
         });
 
-        const result = await newPet.save();  // Sử dụng phương thức `save()` của mongoose để thêm mới Pet
-        res.json({  pet: result });
+        const pet = await newPet.save();
+        res.status(200).json({ status: true, message: 'Pet created successfully', pet });
     } catch (error) {
-        res.status(500).json({ status: false, message: "Error creating pet", error: error.message });
+        res.status(500).json({ status: false, message: 'Error creating pet', error: error.message });
     }
-}
+};
 
 // API Lấy danh sách Pet với phân trang
 const listPet = async (req,res)=>{

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Thú Cưng</title>
+    <link rel="stylesheet" href="/static/css2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css2/css/style1.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Chi Tiết Thú Cưng</h2>
+        <div id="pet-detail">
+            <!-- Thông tin chi tiết thú cưng sẽ được hiển thị ở đây -->
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/web/petmanager" class="btn btn-secondary btn-lg">Quay lại danh sách</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const petId = window.location.pathname.split("/").pop();  // Lấy ID từ URL
+
+            // Lấy chi tiết thú cưng từ API
+            $.ajax({
+                url: `http://localhost:3001/api/pet/${petId}`,  // API lấy thông tin chi tiết thú cưng
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    if (response.status) {
+                        const pet = response.pet;
+                        let petHtml = `
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>${pet.name}</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img src="/static/css2/img/${pet.image}" alt="Pet Image" class="img-fluid" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>ID:</strong> ${pet._id}</p>
+                                            <p><strong>Giá:</strong> ${parseFloat(pet.price * 1000).toLocaleString('vi-VN')} VNĐ</p>
+                                            <p><strong>Tuổi:</strong> ${pet.age} năm</p>
+                                            <p><strong>Giống:</strong> ${pet.breed}</p>
+                                            <p><strong>Mô tả:</strong> ${pet.description}</p>
+                                            <p><strong>Số lượng tồn kho:</strong> ${pet.stock}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $("#pet-detail").html(petHtml);
+                    } else {
+                        alert("Không tìm thấy thú cưng.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Lỗi khi lấy chi tiết thú cưng:", error);
+                    alert("Có lỗi xảy ra khi tải thông tin thú cưng.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
